@@ -265,23 +265,26 @@ footer nav ul {
 
 .buttons {
   display: flex;
-  list-style-type: none;
   justify-content: center;
   gap: 10px;
   margin-bottom: 30px;
-  color: #1d6154;
 }
 
-.buttons li {
+.buttons button {
   border-radius: 60px;
   border: 1px solid #1d6154;
   padding: 10px 15px 10px 15px;
   font-family: "Syne";
   font-weight: 700;
   font-size: 16px;
+  box-sizing: border-box;
+  min-width: 100px;
+  text-align: center;
+  color: #1d6154;
+  background-color: white;
 }
 
-.all {
+.buttons .all_categories {
   background-color: #1d6154;
   color: white;
 }
