@@ -1,6 +1,7 @@
-/* code initial
-const reponse = await fetch("http://localhost:5678/api/works/");
+//début code initial sans local storage
+/* const reponse = await fetch("http://localhost:5678/api/works/");
 const travaux = await reponse.json(); */
+//fin code initial sans local storage
 
 let travaux = window.localStorage.getItem('travaux');
 
@@ -30,36 +31,28 @@ for (let i = 0; i < travaux.length; i++) {
 
 genererTravaux(travaux);
 
-const button_all_categories = document.querySelector(".all_categories");
-button_all_categories.addEventListener("click", function () {
+const category_inputs = document.querySelectorAll("[data-category]");
+const clickFunction = function(event){
+    let data_category = event.target.attributes['data-category'].value;
+    if (data_category === "all") {
     document.querySelector(".gallery").innerHTML = "";
     genererTravaux(travaux);
-});
+    }
+        else
+        {
+        document.querySelector(".gallery").innerHTML = "";
+        const filteredWorks = travaux.filter(function (travail) {
+            return travail.category.id == data_category;
+        });
+        genererTravaux(filteredWorks);
+        }
+};
 
-const button_objets = document.querySelector(".objets");
-button_objets.addEventListener("click", function () {
-    //pourquoi "this" NOK au lieu de "travail" ?
-    const filteredWorks = travaux.filter(function (travail) {
-       return travail.category.id == '1';
-   });
-   document.querySelector(".gallery").innerHTML = "";
-   genererTravaux(filteredWorks);
-});
+for (let i = 0; i < category_inputs.length; i++) {
+    category_inputs[i].addEventListener('click', clickFunction);
+} 
 
-const button_appartements = document.querySelector(".appartements");
-button_appartements.addEventListener("click", function () {
-    const filteredWorks = travaux.filter(function (travail) {
-        return travail.category.id == '2';
-    });
-    document.querySelector(".gallery").innerHTML = "";
-    genererTravaux(filteredWorks);
-});
 
-const button_hotels_restaurants = document.querySelector(".hotels-restaurants");
-button_hotels_restaurants.addEventListener("click", function () {
-    const filteredWorks = travaux.filter(function (travail) {
-        return travail.category.id == '3';
-    });
-    document.querySelector(".gallery").innerHTML = "";
-    genererTravaux(filteredWorks);
-});
+
+
+
