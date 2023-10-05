@@ -8,6 +8,7 @@ let travaux = window.localStorage.getItem('travaux');
 if (travaux === null) {
     const reponse = await fetch("http://localhost:5678/api/works/");
     travaux = await reponse.json();
+    genererTravaux(travaux);
     const valeurtravaux = JSON.stringify(travaux);
     window.localStorage.setItem("travaux", valeurtravaux);
 } else {
@@ -29,23 +30,14 @@ for (let i = 0; i < travaux.length; i++) {
 }
 }
 
-genererTravaux(travaux);
-
 const category_inputs = document.querySelectorAll("[data-category]");
 const clickFunction = function(event){
     let data_category = event.target.attributes['data-category'].value;
-    if (data_category === "all") {
     document.querySelector(".gallery").innerHTML = "";
-    genererTravaux(travaux);
-    }
-        else
-        {
-        document.querySelector(".gallery").innerHTML = "";
         const filteredWorks = travaux.filter(function (travail) {
-            return travail.category.id == data_category;
+            return data_category === "all" ? true :  travail.category.id == data_category;
         });
         genererTravaux(filteredWorks);
-        }
 };
 
 for (let i = 0; i < category_inputs.length; i++) {
