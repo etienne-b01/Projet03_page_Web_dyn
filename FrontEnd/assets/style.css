@@ -291,7 +291,37 @@ footer nav ul {
   color: white;
 }
 
+header a:link {
+  text-decoration: none;
+  color: black;
+}
+
+header a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+header a:hover {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
 /* Styles for login window */
+html {
+  height: 100%;
+}
+
+.login_body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.login_content {
+  flex: 1;
+}
+
 .bold {
   font-size: 16px;
   font-weight: 600;
@@ -362,7 +392,6 @@ footer nav ul {
   background-color: white;
   margin-top: 100px;
   margin-right: 30px;
-  height: 60px;
   font-family: "Work Sans";
   font-weight: 300;
   font-size: 14px;
@@ -370,4 +399,6 @@ footer nav ul {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  height: 60px;
+  padding-right: 30px;
 }
