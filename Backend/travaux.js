@@ -3,20 +3,20 @@
 const travaux = await reponse.json(); */
 //fin code initial sans local storage
 
-let travaux = window.localStorage.getItem('travaux');
+let travaux = window.localStorage.getItem("travaux");
 
 if (travaux === null) {
-    const reponse = await fetch("http://localhost:5678/api/works/");
-    travaux = await reponse.json();
-    genererTravaux(travaux);
-    const valeurtravaux = JSON.stringify(travaux);
-    window.localStorage.setItem("travaux", valeurtravaux);
+  const reponse = await fetch("http://localhost:5678/api/works/");
+  travaux = await reponse.json();
+  genererTravaux(travaux);
+  const valeurtravaux = JSON.stringify(travaux);
+  window.localStorage.setItem("travaux", valeurtravaux);
 } else {
-    travaux = JSON.parse(travaux);
+  travaux = JSON.parse(travaux);
 }
 
-async function genererTravaux (travaux) {
-for (let i = 0; i < travaux.length; i++) {
+async function genererTravaux(travaux) {
+  for (let i = 0; i < travaux.length; i++) {
     const figureElement = document.createElement("figure");
     const imageElement = document.createElement("img");
     imageElement.src = travaux[i].imageUrl;
@@ -27,24 +27,21 @@ for (let i = 0; i < travaux.length; i++) {
     figureElement.appendChild(captionElement);
     const sectionTravaux = document.querySelector(".gallery");
     sectionTravaux.appendChild(figureElement);
-}
+  }
 }
 
 const category_inputs = document.querySelectorAll("[data-category]");
-const clickFunction = function(event){
-    let data_category = event.target.attributes['data-category'].value;
-    document.querySelector(".gallery").innerHTML = "";
-        const filteredWorks = travaux.filter(function (travail) {
-            return data_category === "all" ? true :  travail.category.id == data_category;
-        });
-        genererTravaux(filteredWorks);
+const clickFunction = function (event) {
+  let data_category = event.target.attributes["data-category"].value;
+  document.querySelector(".gallery").innerHTML = "";
+  const filteredWorks = travaux.filter(function (travail) {
+    return data_category === "all"
+      ? true
+      : travail.category.id == data_category;
+  });
+  genererTravaux(filteredWorks);
 };
 
 for (let i = 0; i < category_inputs.length; i++) {
-    category_inputs[i].addEventListener('click', clickFunction);
-} 
-
-
-
-
-
+  category_inputs[i].addEventListener("click", clickFunction);
+}
