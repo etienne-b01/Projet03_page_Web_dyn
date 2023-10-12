@@ -1,19 +1,7 @@
-//début code initial sans local storage
-/* const reponse = await fetch("http://localhost:5678/api/works/");
-const travaux = await reponse.json(); */
-//fin code initial sans local storage
+const reponse = await fetch("http://localhost:5678/api/works/");
+const travaux = await reponse.json();
 
-let travaux = window.localStorage.getItem("travaux");
-
-if (travaux === null) {
-  const reponse = await fetch("http://localhost:5678/api/works/");
-  travaux = await reponse.json();
-  genererTravaux(travaux);
-  const valeurtravaux = JSON.stringify(travaux);
-  window.localStorage.setItem("travaux", valeurtravaux);
-} else {
-  travaux = JSON.parse(travaux);
-}
+genererTravaux(travaux);
 
 async function genererTravaux(travaux) {
   for (let i = 0; i < travaux.length; i++) {
