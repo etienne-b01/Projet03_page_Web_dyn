@@ -402,3 +402,44 @@ html {
   height: 60px;
   padding-right: 30px;
 }
+
+.edit_button {
+  /* visibility: hidden; */
+  display: none;
+  font-weight: 500;
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 1);
+  margin-left: 30px;
+}
+
+.edit_button img {
+  margin-right: 10px;
+}
+
+h2 a:link {
+  text-decoration: none;
+}
+
+h2 a:visited {
+  text-decoration: none;
+}
+
+h2 a:hover {
+  text-decoration: none;
+}
+
+#logout {
+  display: none;
+  border: 0px;
+  font-family: "Work sans";
+  font-weight: 400;
+  font-size: 1em;
+  background: none;
+  /* visibility: hidden; */
+}
+
+#logout:hover {
+  font-weight: bold;
+}

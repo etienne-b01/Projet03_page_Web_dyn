@@ -34,11 +34,13 @@ function loginlistener() {
     const isSuccessful = response.ok;
     if (isSuccessful) {
       console.log("connexion OK");
-      //ajouter token dans local storage
+      //ajouter token dans session storage
+      sessionStorage.setItem("token", response.token);
       window.location.assign("./index.html");
+      displayAdminPage();
     } else {
       console.log("connexion NOK");
-      console.log(response);
+      console.log(token);
       alert("Erreur dans l’identifiant ou le mot de passe");
     }
   });

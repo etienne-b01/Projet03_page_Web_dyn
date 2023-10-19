@@ -33,3 +33,33 @@ const clickFunction = function (event) {
 for (let i = 0; i < category_inputs.length; i++) {
   category_inputs[i].addEventListener("click", clickFunction);
 }
+
+function displayAdminPage() {
+  var filterButtons = document.querySelector(".buttons");
+  filterButtons.style.display = "none";
+  var logoutButton = document.getElementById("logout");
+  logoutButton.style.display = "inline";
+  var loginButton = document.getElementById("login");
+  loginButton.style.display = "none";
+  var editButton = document.querySelector(".edit_button");
+  editButton.style.display = "inline";
+}
+
+const userToken = sessionStorage.getItem("token");
+if (userToken !== null) {
+  displayAdminPage();
+  console.log("user connecté");
+} else {
+  console.log("aucun user connecté");
+}
+
+function logOut() {
+  const logOutButton = document.getElementById("logout");
+  logOutButton.addEventListener("click", () => {
+    console.log("logout cliqué");
+    sessionStorage.clear();
+    location.reload();
+  });
+}
+
+logOut();

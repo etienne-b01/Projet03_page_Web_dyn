@@ -23,9 +23,10 @@
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
         <ul>
-          <li><a href="">projets</a></li>
-          <li><a href="">contact</a></li>
-          <li><a href="./login.html">login</a></li>
+          <li><a href="#">projets</a></li>
+          <li><a href="#">contact</a></li>
+          <li id="login"><a href="./login.html">log in</a></li>
+          <li><button id="logout">log out</button></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -49,13 +50,19 @@
             budget.
           </p>
           <p>
-            En cas de besoin, une équipe pluridisciplinaire peut-être constituée
-            : architecte DPLG, décorateur(trice)
+            En cas de besoin, une équipe pluridisciplinaire peut être constituée
+            : architecte DPLG, décorateur(trice).
           </p>
         </article>
       </section>
       <section id="portfolio">
-        <h2>Mes Projets</h2>
+        <h2>
+          Mes Projets
+          <a href="#" class="edit_button">
+            <img src="assets/images/edit_button.svg" alt="bouton modifier" />
+            modifier</a
+          >
+        </h2>
         <div class="buttons">
           <button class="all_categories" id="category" data-category="all">
             Tous
