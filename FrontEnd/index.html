@@ -58,11 +58,25 @@
       <section id="portfolio">
         <h2>
           Mes Projets
-          <a href="#" class="edit_button">
+          <button id="edit_button" type="button">
             <img src="assets/images/edit_button.svg" alt="bouton modifier" />
-            modifier</a
-          >
+            modifier
+          </button>
         </h2>
+        <dialog id="modal_window">
+          <form>
+            <div class="modal_body">
+              <p>photos</p>
+            </div>
+            <div>
+              <p>(photos)</p>
+            </div>
+            <div class="modal_footer">
+              <button id="closeButton" type="reset">Close</button>
+              <button id="addPicture" value="default">Ajouter une photo</button>
+            </div>
+          </form>
+        </dialog>
         <div class="buttons">
           <button class="all_categories" id="category" data-category="all">
             Tous

@@ -403,8 +403,7 @@ html {
   padding-right: 30px;
 }
 
-.edit_button {
-  /* visibility: hidden; */
+#edit_button {
   display: none;
   font-weight: 500;
   font-family: "Work Sans";
@@ -412,9 +411,11 @@ html {
   font-weight: 400;
   color: rgba(0, 0, 0, 1);
   margin-left: 30px;
+  background: none;
+  border: 0px;
 }
 
-.edit_button img {
+#edit_button img {
   margin-right: 10px;
 }
 
@@ -437,9 +438,19 @@ h2 a:hover {
   font-weight: 400;
   font-size: 1em;
   background: none;
-  /* visibility: hidden; */
 }
 
 #logout:hover {
   font-weight: bold;
+}
+
+#modal_window {
+  width: 630px;
+  height: 688px;
+  border-radius: 10px;
+  border: 0px;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
 }

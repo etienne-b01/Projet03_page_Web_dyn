@@ -41,7 +41,7 @@ function displayAdminPage() {
   logoutButton.style.display = "inline";
   var loginButton = document.getElementById("login");
   loginButton.style.display = "none";
-  var editButton = document.querySelector(".edit_button");
+  var editButton = document.getElementById("edit_button");
   editButton.style.display = "inline";
 }
 
@@ -63,3 +63,17 @@ function logOut() {
 }
 
 logOut();
+
+//code pour appeler et fermer modale
+const editButton = document.getElementById("edit_button");
+const modal = document.getElementById("modal_window");
+const closeButton = document.getElementById("closeButton");
+const addPicture = document.getElementById("addPicture");
+
+editButton.addEventListener("click", () => {
+  modal.showModal();
+});
+
+closeButton.addEventListener("click", () => {
+  modal.close();
+});
