@@ -17,6 +17,10 @@
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
     <script type="module" src="http://127.0.0.1:5501/travaux.js"></script>
+    <script
+      src="https://kit.fontawesome.com/0740091a40.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <header>
@@ -64,16 +68,41 @@
           </button>
         </h2>
         <dialog id="modal_window">
-          <form>
-            <div class="modal_body">
-              <p>photos</p>
+          <form class="modal_layout">
+            <div class="modal_header">
+              <button id="backButton">
+                <i class="fa-solid fa-arrow-left"></i>
+              </button>
+              <button id="closeButton">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
             </div>
-            <div>
-              <p>(photos)</p>
+            <div class="modal_body">
+              <h3 id="add_picture_title">Ajout photo</h3>
+              <h3 id="gallery_title">Galerie photo</h3>
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
+              <img src="http:www.blabla.com/1.jpg" />
             </div>
             <div class="modal_footer">
-              <button id="closeButton" type="reset">Close</button>
+              <hr />
               <button id="addPicture" value="default">Ajouter une photo</button>
+              <button id="submitPicture" value="default">Valider</button>
             </div>
           </form>
         </dialog>

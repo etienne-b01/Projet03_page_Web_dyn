@@ -72,8 +72,10 @@ const addPicture = document.getElementById("addPicture");
 
 editButton.addEventListener("click", () => {
   modal.showModal();
+  console.log("appel modale");
 });
 
 closeButton.addEventListener("click", () => {
   modal.close();
+  console.log("fermeture demandée");
 });
