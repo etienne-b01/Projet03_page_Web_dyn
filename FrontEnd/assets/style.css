@@ -468,9 +468,8 @@ dialog::backdrop {
 .modal_header {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 20px;
-  /* background-color: aquamarine; */
   width: 95%;
 }
 
@@ -482,9 +481,15 @@ dialog::backdrop {
 
 .modal_body {
   height: 100%;
-  background-color: beige;
   width: 420px;
-  margin-bottom: 70px;
+  margin-bottom: 0px;
+}
+
+.thumbnail_gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(77px, max-content));
+  justify-content: center;
+  gap: 30px 7px;
 }
 
 .modal_body img {
