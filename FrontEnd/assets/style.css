@@ -446,7 +446,7 @@ h2 a:hover {
 
 :modal {
   width: 630px;
-  height: 688px;
+  height: 670px;
   border-radius: 10px;
   border: 0px;
   font-family: "Work sans";
@@ -490,6 +490,57 @@ dialog::backdrop {
   grid-template-columns: repeat(auto-fit, minmax(77px, max-content));
   justify-content: center;
   gap: 30px 7px;
+  display: none;
+}
+
+.user_inputs input,
+select {
+  width: 420px;
+  height: 51px;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+  border: none;
+  background-color: transparent;
+  box-sizing: border-box;
+}
+
+.user_inputs p {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.image_upload {
+  width: 420px;
+  height: 169px;
+  background-color: rgba(232, 241, 246, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.image_upload p {
+  font-family: "Work Sans";
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(68, 68, 68, 1);
+}
+
+#add_picture_button {
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(48, 102, 133, 1);
+  margin-bottom: 10px;
+}
+
+.image_upload button {
+  width: 173px;
+  height: 36px;
+  border-radius: 50px;
+  background-color: rgba(203, 214, 220, 1);
+  border: none;
 }
 
 .modal_body img {
@@ -510,6 +561,7 @@ dialog::backdrop {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 0px;
 }
 
 #add_picture_title,
