@@ -473,6 +473,10 @@ dialog::backdrop {
   width: 95%;
 }
 
+.modal_header i {
+  font-size: 20px;
+}
+
 .modal_header button {
   border: 0px;
   background: none;
@@ -490,7 +494,34 @@ dialog::backdrop {
   grid-template-columns: repeat(auto-fit, minmax(77px, max-content));
   justify-content: center;
   gap: 30px 7px;
-  display: none;
+  /* display: none; */
+}
+
+.picture_frame {
+  position: relative;
+}
+
+.picture_button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+#delete_picture {
+  width: 17px;
+  height: 17px;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  font-size: 11px;
+}
+
+.picture_frame button {
+  background: none;
+  border: none;
 }
 
 .user_inputs input,
@@ -508,6 +539,12 @@ select {
   margin-bottom: 10px;
 }
 
+.user_inputs,
+#add_picture_title,
+#submitPicture {
+  display: none;
+}
+
 .image_upload {
   width: 420px;
   height: 169px;
@@ -518,6 +555,7 @@ select {
   align-items: center;
   padding-bottom: 15px;
   margin-bottom: 30px;
+  display: none;
 }
 
 .image_upload p {
@@ -562,11 +600,6 @@ select {
   justify-content: center;
   align-items: center;
   margin-bottom: 0px;
-}
-
-#add_picture_title,
-#submitPicture {
-  display: none;
 }
 
 .modal_footer hr {
