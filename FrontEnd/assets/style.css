@@ -404,7 +404,6 @@ html {
 }
 
 #edit_button {
-  display: none;
   font-weight: 500;
   font-family: "Work Sans";
   font-size: 14px;
@@ -413,6 +412,7 @@ html {
   margin-left: 30px;
   background: none;
   border: 0px;
+  /* display: none; */
 }
 
 #edit_button img {
@@ -432,7 +432,7 @@ h2 a:hover {
 }
 
 #logout {
-  display: none;
+  /* display: none; */
   border: 0px;
   font-family: "Work sans";
   font-weight: 400;
@@ -494,7 +494,6 @@ dialog::backdrop {
   grid-template-columns: repeat(auto-fit, minmax(77px, max-content));
   justify-content: center;
   gap: 30px 7px;
-  /* display: none; */
 }
 
 .picture_frame {
@@ -503,8 +502,8 @@ dialog::backdrop {
 
 .picture_button {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 6px;
+  right: 6px;
 }
 
 #delete_picture {
@@ -539,12 +538,6 @@ select {
   margin-bottom: 10px;
 }
 
-.user_inputs,
-#add_picture_title,
-#submitPicture {
-  display: none;
-}
-
 .image_upload {
   width: 420px;
   height: 169px;
@@ -555,7 +548,6 @@ select {
   align-items: center;
   padding-bottom: 15px;
   margin-bottom: 30px;
-  display: none;
 }
 
 .image_upload p {
@@ -621,4 +613,13 @@ select {
   font-weight: 700;
   line-height: 17px;
   margin-bottom: 30px;
+  text-decoration: none;
+  /*   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+}
+
+.hidden {
+  display: none;
 }

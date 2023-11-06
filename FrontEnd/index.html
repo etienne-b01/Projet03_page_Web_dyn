@@ -30,7 +30,7 @@
           <li><a href="#">projets</a></li>
           <li><a href="#">contact</a></li>
           <li id="login"><a href="./login.html">log in</a></li>
-          <li><button id="logout">log out</button></li>
+          <li><button id="logout" class="hidden">log out</button></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -62,13 +62,13 @@
       <section id="portfolio">
         <h2>
           Mes Projets
-          <button id="edit_button" type="button">
+          <button id="edit_button" type="button" class="hidden">
             <img src="assets/images/edit_button.svg" alt="bouton modifier" />
             modifier
           </button>
         </h2>
         <dialog id="modal_window">
-          <form class="modal_layout">
+          <form class="modal_layout" id="photo_form">
             <div class="modal_header">
               <button id="backButton">
                 <i class="fa-solid fa-arrow-left"></i>
@@ -78,9 +78,9 @@
               </button>
             </div>
             <div class="modal_body">
-              <h3 id="add_picture_title">Ajout photo</h3>
+              <h3 id="add_picture_title" class="hidden">Ajout photo</h3>
               <h3 id="gallery_title">Galerie photo</h3>
-              <div class="image_upload">
+              <div class="image_upload hidden">
                 <img
                   src="assets/icons/picture_icon.svg"
                   alt="menu téléversement image"
@@ -90,9 +90,9 @@
                 </button>
                 <p>jpg, png : 4 MO max</p>
               </div>
-              <div class="user_inputs">
+              <div class="user_inputs hidden">
                 <p>Titre</p>
-                <input type="text" />
+                <input type="text" id="photo_name" />
                 <p>Catégorie</p>
                 <select name="category" id="category">
                   <option value="category_1">category 1</option>
@@ -109,68 +109,21 @@
                   </div>
                   <img src="http:www.blabla.com/1.jpg" />
                 </div>
-                <div class="picture_frame">
-                  <div class="picture_button">
-                    <button id="delete_picture">
-                      <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                  </div>
-                  <img src="http:www.blabla.com/1.jpg" />
-                </div>
-                <div class="picture_frame">
-                  <div class="picture_button">
-                    <button id="delete_picture">
-                      <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                  </div>
-                  <img src="http:www.blabla.com/1.jpg" />
-                </div>
-                <div class="picture_frame">
-                  <div class="picture_button">
-                    <button id="delete_picture">
-                      <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                  </div>
-                  <img src="http:www.blabla.com/1.jpg" />
-                </div>
-                <div class="picture_frame">
-                  <div class="picture_button">
-                    <button id="delete_picture">
-                      <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                  </div>
-                  <img src="http:www.blabla.com/1.jpg" />
-                </div>
-                <div class="picture_frame">
-                  <div class="picture_button">
-                    <button id="delete_picture">
-                      <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                  </div>
-                  <img src="http:www.blabla.com/1.jpg" />
-                </div>
-                <div class="picture_frame">
-                  <div class="picture_button">
-                    <button id="delete_picture">
-                      <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                  </div>
-                  <img src="http:www.blabla.com/1.jpg" />
-                </div>
-                <div class="picture_frame">
-                  <div class="picture_button">
-                    <button id="delete_picture">
-                      <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                  </div>
-                  <img src="http:www.blabla.com/1.jpg" />
-                </div>
               </div>
             </div>
             <div class="modal_footer">
               <hr />
-              <button id="addPicture" value="default">Ajouter une photo</button>
-              <button id="submitPicture" value="default">Valider</button>
+              <button id="addPicture" type="button" value="default">
+                Ajouter une photo
+              </button>
+              <button
+                id="submitPicture"
+                type="button"
+                class="hidden"
+                value="default"
+              >
+                Valider
+              </button>
             </div>
           </form>
         </dialog>

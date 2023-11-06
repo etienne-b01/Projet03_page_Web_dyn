@@ -35,14 +35,17 @@ for (let i = 0; i < category_inputs.length; i++) {
 }
 
 function displayAdminPage() {
-  var filterButtons = document.querySelector(".buttons");
-  filterButtons.style.display = "none";
-  var logoutButton = document.getElementById("logout");
-  logoutButton.style.display = "inline";
-  var loginButton = document.getElementById("login");
-  loginButton.style.display = "none";
-  var editButton = document.getElementById("edit_button");
-  editButton.style.display = "inline";
+  const filterButtons = document.querySelector(".buttons");
+  filterButtons.classList.add("hidden");
+
+  const logoutButton = document.getElementById("logout");
+  logoutButton.classList.remove("hidden");
+
+  const loginButton = document.getElementById("login");
+  loginButton.classList.add("hidden");
+
+  const editButton = document.getElementById("edit_button");
+  editButton.classList.remove("hidden");
 }
 
 const userToken = sessionStorage.getItem("token");
@@ -79,3 +82,53 @@ closeButton.addEventListener("click", () => {
   modal.close();
   console.log("fermeture demandée");
 });
+
+// déclaration des éléments de l'interface pour les afficher ou les masquer
+const imageUploadSection = document.querySelector(".image_upload");
+const userInputsSection = document.querySelector(".user_inputs");
+const addPictureTitle = document.getElementById("add_picture_title");
+const submitPictureButton = document.getElementById("submitPicture");
+const addPictureButton = document.getElementById("addPicture");
+const galleryTitle = document.getElementById("gallery_title");
+const thumbnailGallerySection = document.querySelector(".thumbnail_gallery");
+
+function displayUploadPage() {
+  imageUploadSection.classList.remove("hidden");
+  userInputsSection.classList.remove("hidden");
+  addPictureTitle.classList.remove("hidden");
+  submitPictureButton.classList.remove("hidden");
+  addPictureButton.classList.add("hidden");
+  galleryTitle.classList.add("hidden");
+  thumbnailGallerySection.classList.add("hidden");
+}
+
+addPictureButton.addEventListener("click", () => {
+  displayUploadPage();
+  console.log("mode upload activé");
+});
+
+const photoForm = document.querySelector("#photo_form");
+photoForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  console.log("submit demandé mais annulé");
+});
+
+function goBackHome() {
+  const backButton = document.getElementById("backButton");
+  const categoryInput = document.getElementById("category");
+  const photoName = document.getElementById("photo_name");
+  backButton.addEventListener("click", () => {
+    console.log("bouton back cliqué");
+    categoryInput.value = "";
+    photoName.value = "";
+    imageUploadSection.classList.add("hidden");
+    userInputsSection.classList.add("hidden");
+    addPictureTitle.classList.add("hidden");
+    submitPictureButton.classList.add("hidden");
+    addPictureButton.classList.remove("hidden");
+    galleryTitle.classList.remove("hidden");
+    thumbnailGallerySection.classList.remove("hidden");
+  });
+}
+
+goBackHome();
