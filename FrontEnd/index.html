@@ -85,9 +85,17 @@
                   src="assets/icons/picture_icon.svg"
                   alt="menu téléversement image"
                 />
-                <button id="add_picture_button" type="button">
+                <label
+                  for="add_picture_button"
+                  class="add_picture_button_label"
+                >
                   + Ajouter photo
-                </button>
+                </label>
+                <input
+                  id="add_picture_button"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                />
                 <p>jpg, png : 4 MO max</p>
               </div>
               <div class="user_inputs hidden">

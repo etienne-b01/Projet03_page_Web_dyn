@@ -557,20 +557,25 @@ select {
   color: rgba(68, 68, 68, 1);
 }
 
-#add_picture_button {
+.add_picture_button_label {
   font-family: "Work Sans";
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: rgba(48, 102, 133, 1);
   margin-bottom: 10px;
-}
-
-.image_upload button {
   width: 173px;
   height: 36px;
   border-radius: 50px;
   background-color: rgba(203, 214, 220, 1);
   border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#add_picture_button {
+  display: none;
 }
 
 .modal_body img {

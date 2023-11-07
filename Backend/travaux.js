@@ -132,3 +132,13 @@ function goBackHome() {
 }
 
 goBackHome();
+
+function uploadPicture() {
+  const addPictubeButton = document.getElementById("add_picture_button");
+  addPictubeButton.onchange = () => {
+    const selectedFile = fileInput.files[0];
+    console.log(selectedFile);
+  };
+}
+
+uploadPicture();
