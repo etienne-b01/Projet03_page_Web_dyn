@@ -91,6 +91,9 @@ const submitPictureButton = document.getElementById("submitPicture");
 const addPictureButton = document.getElementById("addPicture");
 const galleryTitle = document.getElementById("gallery_title");
 const thumbnailGallerySection = document.querySelector(".thumbnail_gallery");
+const uploadedPictureSection = document.querySelector(
+  ".uploaded_picture_preview"
+);
 
 function displayUploadPage() {
   imageUploadSection.classList.remove("hidden");
@@ -128,17 +131,30 @@ function goBackHome() {
     addPictureButton.classList.remove("hidden");
     galleryTitle.classList.remove("hidden");
     thumbnailGallerySection.classList.remove("hidden");
+    uploadedPictureSection.classList.add("hidden");
   });
 }
 
 goBackHome();
 
 function uploadPicture() {
-  const addPictubeButton = document.getElementById("add_picture_button");
-  addPictubeButton.onchange = () => {
+  const addPictureButton = document.getElementById("add_picture_button");
+  addPictureButton.onchange = () => {
     const selectedFile = fileInput.files[0];
     console.log(selectedFile);
   };
 }
 
 uploadPicture();
+
+function displayUploadedPicture() {
+  // ajouter autres conditions (titre non vide + categ non vide + fichier sélectionné) ?
+  const submitPictureButton = document.getElementById("submitPicture");
+  submitPictureButton.addEventListener("click", () => {
+    imageUploadSection.classList.add("hidden");
+    uploadedPictureSection.classList.remove("hidden");
+    console.log("preview demandé");
+  });
+}
+
+displayUploadedPicture();
