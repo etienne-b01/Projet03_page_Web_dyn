@@ -112,9 +112,31 @@ addPictureButton.addEventListener("click", () => {
 
 const photoForm = document.querySelector("#photo_form");
 photoForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+  e.preventDefault(); //à garder
   console.log("submit demandé mais annulé");
 });
+
+//à fusionner avec supra
+function uploadPicture() {
+  const form = new FormData();
+  form.append("image", null);
+  // faire append pour chacun des 3 items
+  submitter.addEventListener("click", async function (e) {
+    e.preventDefault();
+    // requis ici ?
+    console.log("soumission du formulaire");
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      body: form,
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+    });
+  });
+}
+//guetter feedback serveur avec alerte si pb
+
+uploadPicture();
 
 function goBackHome() {
   const backButton = document.getElementById("backButton");
@@ -137,24 +159,13 @@ function goBackHome() {
 
 goBackHome();
 
-function uploadPicture() {
+function displayUploadedPictureName() {
   const addPictureButton = document.getElementById("add_picture_button");
-  addPictureButton.onchange = () => {
-    const selectedFile = fileInput.files[0];
-    console.log(selectedFile);
-  };
-}
-
-uploadPicture();
-
-function displayUploadedPicture() {
-  // ajouter autres conditions (titre non vide + categ non vide + fichier sélectionné) ?
-  const submitPictureButton = document.getElementById("submitPicture");
-  submitPictureButton.addEventListener("click", () => {
-    imageUploadSection.classList.add("hidden");
-    uploadedPictureSection.classList.remove("hidden");
-    console.log("preview demandé");
+  addPictureButton.addEventListener("change", (e) => {
+    console.log(e);
+    const uploadedPicture = document.getElementById("add_picture_button");
+    console.log(uploadedPicture.files[0].name);
   });
 }
 
-displayUploadedPicture();
+displayUploadedPictureName();
