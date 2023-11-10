@@ -110,17 +110,6 @@ addPictureButton.addEventListener("click", () => {
   console.log("mode upload activé");
 });
 
-function displaySubmittedPictureName() {
-  const addPictureButton = document.getElementById("add_picture_button");
-  addPictureButton.addEventListener("change", (e) => {
-    // console.log(e);
-    const uploadedPicture = document.getElementById("add_picture_button");
-    console.log(uploadedPicture.files[0].name);
-  });
-}
-
-displaySubmittedPictureName();
-
 function previewSubmittedPicture() {
   const addPictureButton = document.getElementById("add_picture_button");
   addPictureButton.addEventListener("change", (e) => {
@@ -136,11 +125,24 @@ function previewSubmittedPicture() {
 
 previewSubmittedPicture();
 
-function uploadPicture() {
+function printUserInputs() {
+  const photoName = document.getElementById("photo_name");
+  const category = document.getElementById("category");
+  photoName.addEventListener("change", () => {
+    console.log(photoName.value);
+  });
+  category.addEventListener("change", () => {
+    console.log(category.value);
+  });
+}
+
+printUserInputs();
+
+/* function uploadPicture() {
   const photoForm = document.querySelector("#photo_form");
   photoForm.addEventListener("submit", (e) => {
     e.preventDefault(); //à garder
-    console.log("submit demandé mais annulé");
+    console.log("submit demandé");
     const form = new FormData();
     form.append("image", null);
     // faire append pour chacun des 3 items
@@ -153,9 +155,9 @@ function uploadPicture() {
     });
   });
   //guetter feedback serveur avec alerte si pb
-}
+} */
 
-uploadPicture();
+// uploadPicture();
 
 function goBackHome() {
   const backButton = document.getElementById("backButton");
@@ -165,6 +167,7 @@ function goBackHome() {
     console.log("bouton back cliqué");
     categoryInput.value = "";
     photoName.value = "";
+    console.log(imagePreviewURL);
     imageUploadSection.classList.add("hidden");
     userInputsSection.classList.add("hidden");
     addPictureTitle.classList.add("hidden");
@@ -175,5 +178,17 @@ function goBackHome() {
     uploadedPictureSection.classList.add("hidden");
   });
 }
+//quand placer revokeObjectURL ?
 
 goBackHome();
+
+/* function displaySubmittedPictureName() {
+  const addPictureButton = document.getElementById("add_picture_button");
+  addPictureButton.addEventListener("change", (e) => {
+    // console.log(e);
+    const uploadedPicture = document.getElementById("add_picture_button");
+    console.log(uploadedPicture.files[0].name);
+  });
+}
+
+displaySubmittedPictureName(); */
