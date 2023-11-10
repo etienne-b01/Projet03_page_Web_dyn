@@ -110,22 +110,41 @@ addPictureButton.addEventListener("click", () => {
   console.log("mode upload activé");
 });
 
-const photoForm = document.querySelector("#photo_form");
-photoForm.addEventListener("submit", (e) => {
-  e.preventDefault(); //à garder
-  console.log("submit demandé mais annulé");
-});
+function displaySubmittedPictureName() {
+  const addPictureButton = document.getElementById("add_picture_button");
+  addPictureButton.addEventListener("change", (e) => {
+    // console.log(e);
+    const uploadedPicture = document.getElementById("add_picture_button");
+    console.log(uploadedPicture.files[0].name);
+  });
+}
 
-//à fusionner avec supra
+displaySubmittedPictureName();
+
+function previewSubmittedPicture() {
+  const addPictureButton = document.getElementById("add_picture_button");
+  addPictureButton.addEventListener("change", (e) => {
+    const imagePreviewURL = URL.createObjectURL(addPictureButton.files[0]);
+    const imagePreviewElement = document.createElement("img");
+    imagePreviewElement.src = imagePreviewURL;
+    console.log(imagePreviewURL);
+    uploadedPictureSection.classList.remove("hidden");
+    imageUploadSection.classList.add("hidden");
+    uploadedPictureSection.appendChild(imagePreviewElement);
+  });
+}
+
+previewSubmittedPicture();
+
 function uploadPicture() {
-  const form = new FormData();
-  form.append("image", null);
-  // faire append pour chacun des 3 items
-  submitter.addEventListener("click", async function (e) {
-    e.preventDefault();
-    // requis ici ?
-    console.log("soumission du formulaire");
-    const response = await fetch("http://localhost:5678/api/works", {
+  const photoForm = document.querySelector("#photo_form");
+  photoForm.addEventListener("submit", (e) => {
+    e.preventDefault(); //à garder
+    console.log("submit demandé mais annulé");
+    const form = new FormData();
+    form.append("image", null);
+    // faire append pour chacun des 3 items
+    const response = fetch("http://localhost:5678/api/works", {
       method: "POST",
       body: form,
       headers: {
@@ -133,8 +152,8 @@ function uploadPicture() {
       },
     });
   });
+  //guetter feedback serveur avec alerte si pb
 }
-//guetter feedback serveur avec alerte si pb
 
 uploadPicture();
 
@@ -158,14 +177,3 @@ function goBackHome() {
 }
 
 goBackHome();
-
-function displayUploadedPictureName() {
-  const addPictureButton = document.getElementById("add_picture_button");
-  addPictureButton.addEventListener("change", (e) => {
-    console.log(e);
-    const uploadedPicture = document.getElementById("add_picture_button");
-    console.log(uploadedPicture.files[0].name);
-  });
-}
-
-displayUploadedPictureName();
