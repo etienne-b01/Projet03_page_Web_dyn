@@ -30,17 +30,15 @@ function loginlistener() {
       headers: { "Content-Type": "application/json" },
       body: payload,
     });
-    console.log(response);
-    const isSuccessful = response.ok;
-    if (isSuccessful) {
-      console.log("connexion OK");
-      //ajouter token dans session storage
-      sessionStorage.setItem("token", response.token);
+    if (response.ok) {
+      //sauvegarde du token localement
+      const serverResponse = await response.json();
+      const token = serverResponse.token;
+      console.log(token);
+      sessionStorage.setItem("adminToken", token);
       window.location.assign("./index.html");
-      displayAdminPage();
     } else {
       console.log("connexion NOK");
-      console.log(token);
       alert("Erreur dans l’identifiant ou le mot de passe");
     }
   });

@@ -48,8 +48,8 @@ function displayAdminPage() {
   editButton.classList.remove("hidden");
 }
 
-const userToken = sessionStorage.getItem("token");
-if (userToken !== null) {
+const adminToken = sessionStorage.getItem("adminToken");
+if (adminToken !== null) {
   displayAdminPage();
   console.log("user connecté");
 } else {
@@ -82,6 +82,37 @@ closeButton.addEventListener("click", () => {
   modal.close();
   console.log("fermeture demandée");
 });
+
+async function displayThumbnails(travaux) {
+  for (let i = 0; i < travaux.length; i++) {
+    const buttonItem = document.createElement("button");
+    buttonItem.setAttribute("id", "delete_picture");
+    const trashcanIcon = document.createElement("i");
+    trashcanIcon.classList.add("fa-solid");
+    trashcanIcon.classList.add("fa-trash-can");
+
+    const imageThumbnail = document.createElement("img");
+    imageThumbnail.src = travaux[i].imageUrl;
+    imageThumbnail.alt = travaux[i].title;
+    const thumbnailGallery = document.querySelector(".thumbnail_gallery");
+    const imageDiv = document.createElement("div");
+    const pictureFrameDiv = document.createElement("div");
+    const pictureButtonDiv = document.createElement("div");
+
+    pictureFrameDiv.classList.add("picture_frame");
+    pictureButtonDiv.classList.add("picture_button");
+
+    thumbnailGallery.appendChild(pictureFrameDiv);
+    pictureFrameDiv.appendChild(pictureButtonDiv);
+    pictureButtonDiv.appendChild(buttonItem);
+
+    buttonItem.appendChild(trashcanIcon);
+    pictureFrameDiv.appendChild(imageDiv);
+    imageDiv.appendChild(imageThumbnail);
+  }
+}
+
+displayThumbnails(travaux);
 
 // déclaration des éléments de l'interface pour les afficher ou les masquer
 const imageUploadSection = document.querySelector(".image_upload");
@@ -117,6 +148,10 @@ function previewSubmittedPicture() {
     const imagePreviewElement = document.createElement("img");
     imagePreviewElement.src = imagePreviewURL;
     console.log(imagePreviewURL);
+    imagePreviewElement.onload = () => {
+      URL.revokeObjectURL(imagePreviewElement.src);
+      console.log("revoke OK");
+    };
     uploadedPictureSection.classList.remove("hidden");
     imageUploadSection.classList.add("hidden");
     uploadedPictureSection.appendChild(imagePreviewElement);
@@ -125,39 +160,64 @@ function previewSubmittedPicture() {
 
 previewSubmittedPicture();
 
-function printUserInputs() {
+function validatePicture() {
+  if (document.getElementById("add_picture_button").files.length === 0)
+    throw new Error("Veuillez sélectionner une image.");
+}
+
+function validatePhotoName() {
   const photoName = document.getElementById("photo_name");
+  if (photoName.value === "") {
+    throw new Error("Veuillez renseigner le nom de l'image.");
+  }
+}
+
+function validateCategory() {
   const category = document.getElementById("category");
-  photoName.addEventListener("change", () => {
-    console.log(photoName.value);
-  });
-  category.addEventListener("change", () => {
-    console.log(category.value);
+  if (category.value === "") {
+    throw new Error("Veuillez sélectionner une catégorie.");
+  }
+}
+
+function uploadPicture() {
+  const photoForm = document.querySelector("#photo_form");
+  photoForm.addEventListener("submit", async (e) => {
+    try {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("submit demandé");
+      validatePicture();
+      validatePhotoName();
+      validateCategory();
+      const adminToken = sessionStorage.getItem("adminToken");
+      console.log("token = " + adminToken);
+      const form = new FormData();
+      const file = document.getElementById("add_picture_button").files[0];
+      form.append("image", file);
+      form.append("title", document.getElementById("photo_name").value);
+      form.append("category", document.getElementById("category").value);
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        body: form,
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${adminToken}`,
+        },
+      });
+      if (response.ok) {
+        console.log("upload OK");
+        alert("Téléversement réussi !");
+      } else {
+        console.log("upload NOK");
+        throw new Error("Echec du téléversement.");
+      }
+    } catch (e) {
+      alert(e);
+    }
   });
 }
 
-printUserInputs();
-
-/* function uploadPicture() {
-  const photoForm = document.querySelector("#photo_form");
-  photoForm.addEventListener("submit", (e) => {
-    e.preventDefault(); //à garder
-    console.log("submit demandé");
-    const form = new FormData();
-    form.append("image", null);
-    // faire append pour chacun des 3 items
-    const response = fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      body: form,
-      headers: {
-        "Content-type": "multipart/form-data",
-      },
-    });
-  });
-  //guetter feedback serveur avec alerte si pb
-} */
-
-// uploadPicture();
+uploadPicture();
 
 function goBackHome() {
   const backButton = document.getElementById("backButton");
@@ -167,7 +227,6 @@ function goBackHome() {
     console.log("bouton back cliqué");
     categoryInput.value = "";
     photoName.value = "";
-    console.log(imagePreviewURL);
     imageUploadSection.classList.add("hidden");
     userInputsSection.classList.add("hidden");
     addPictureTitle.classList.add("hidden");
@@ -178,17 +237,5 @@ function goBackHome() {
     uploadedPictureSection.classList.add("hidden");
   });
 }
-//quand placer revokeObjectURL ?
 
 goBackHome();
-
-/* function displaySubmittedPictureName() {
-  const addPictureButton = document.getElementById("add_picture_button");
-  addPictureButton.addEventListener("change", (e) => {
-    // console.log(e);
-    const uploadedPicture = document.getElementById("add_picture_button");
-    console.log(uploadedPicture.files[0].name);
-  });
-}
-
-displaySubmittedPictureName(); */
