@@ -1,5 +1,7 @@
-const reponse = await fetch("http://localhost:5678/api/works/");
-const travaux = await reponse.json();
+const works_response = await fetch("http://localhost:5678/api/works/");
+const categories_response = await fetch("http://localhost:5678/api/categories");
+const travaux = await works_response.json();
+const categories = await categories_response.json();
 
 genererTravaux(travaux);
 
@@ -83,6 +85,7 @@ closeButton.addEventListener("click", () => {
   console.log("fermeture demandée");
 });
 
+// code pour affichage de la galerie de miniatures
 async function displayThumbnails(travaux) {
   for (let i = 0; i < travaux.length; i++) {
     const buttonItem = document.createElement("button");
@@ -138,8 +141,28 @@ function displayUploadPage() {
 
 addPictureButton.addEventListener("click", () => {
   displayUploadPage();
+  displayCategories(categories);
   console.log("mode upload activé");
+  console.log("liste catégories = " + categories);
+  console.log("liste travaux = " + travaux);
 });
+
+//récupération de la liste des catégories pour affichage dans la liste déroulante
+async function displayCategories(categories) {
+  for (let i = 0; i < categories.length; i++) {
+    const categoryList = document.getElementById("category_list");
+    const optionItem = document.createElement("option");
+    //optionItem.setAttribute("value", categories[i].id);
+    optionItem.innerText = categories[i].name;
+    categoryList.appendChild(optionItem);
+  }
+
+  /*   const categoryList = document.getElementById("category_list");
+  const optionItem = document.createElement("option");
+  optionItem.setAttribute("value", "toto");
+  optionItem.innerText = "toto";
+  categoryList.appendChild(optionItem); */
+}
 
 function previewSubmittedPicture() {
   const addPictureButton = document.getElementById("add_picture_button");
