@@ -3,8 +3,33 @@ const categories_response = await fetch("http://localhost:5678/api/categories");
 const travaux = await works_response.json();
 const categories = await categories_response.json();
 
-genererTravaux(travaux);
+//affichage des filtres reprenant les catégories
+async function createCategoryFilters(categories) {
+  for (let i = 0; i < categories.length; i++) {
+    const buttonsClass = document.querySelector("buttons");
+    const buttonElement = document.createElement;
+    buttonElement.setAttribute("id", "category");
+    buttonElement.setAttribute("data-category", categories[i].id);
+    buttonElement.innerText = categories[i].name;
+    buttonsClass.appendChild(buttonElement);
+  }
+}
 
+//création des filtres d'affichage des travaux
+async function createDisplayFilters(categories) {
+  for (let i = 0; i < categories.length; i++) {
+    const buttonsClass = document.querySelector(".buttons");
+    const buttonElement = document.createElement("button");
+    buttonElement.setAttribute("id", "category");
+    buttonElement.setAttribute("data-category", categories[i].id);
+    buttonElement.innerText = categories[i].name;
+    buttonsClass.appendChild(buttonElement);
+  }
+}
+
+createDisplayFilters(categories);
+
+//affichage des travaux toutes catégories confondues
 async function genererTravaux(travaux) {
   for (let i = 0; i < travaux.length; i++) {
     const figureElement = document.createElement("figure");
@@ -20,6 +45,9 @@ async function genererTravaux(travaux) {
   }
 }
 
+genererTravaux(travaux);
+
+//filtrage des travaux à afficher
 const category_inputs = document.querySelectorAll("[data-category]");
 const clickFunction = function (event) {
   let data_category = event.target.attributes["data-category"].value;
@@ -36,6 +64,7 @@ for (let i = 0; i < category_inputs.length; i++) {
   category_inputs[i].addEventListener("click", clickFunction);
 }
 
+//affichage des fonctions d'administration
 function displayAdminPage() {
   const filterButtons = document.querySelector(".buttons");
   filterButtons.classList.add("hidden");
@@ -50,6 +79,7 @@ function displayAdminPage() {
   editButton.classList.remove("hidden");
 }
 
+//création variable token
 const adminToken = sessionStorage.getItem("adminToken");
 if (adminToken !== null) {
   displayAdminPage();
@@ -58,6 +88,7 @@ if (adminToken !== null) {
   console.log("aucun user connecté");
 }
 
+//fonction de logout
 function logOut() {
   const logOutButton = document.getElementById("logout");
   logOutButton.addEventListener("click", () => {
@@ -88,8 +119,9 @@ closeButton.addEventListener("click", () => {
 // code pour affichage de la galerie de miniatures
 async function displayThumbnails(travaux) {
   const thumbnailGallery = document.querySelector(".thumbnail_gallery");
-  //test, à virer si pb
+  //refresh ne marche pas au bouton back!
   thumbnailGallery.innerHTML = "";
+  console.log("refresh demandé");
   for (let i = 0; i < travaux.length; i++) {
     const buttonItem = document.createElement("button");
     buttonItem.setAttribute("id", "delete_picture");
@@ -166,12 +198,28 @@ async function displayCategories(categories) {
 
 //fonction pour suppression des travaux depuis la modale
 async function deleteWorks() {
+  const adminToken = sessionStorage.getItem("adminToken");
   const deleteIcons = document.querySelectorAll(".thumbnail_delete_icon");
   const iconClicked = (e) => {
     e.preventDefault();
-    console.log("suppression demandée = " + e.target.id);
-    //refresh display provoque bug!
-    //displayThumbnails(travaux);
+    e.stopPropagation();
+    const targetURL = "http://localhost:5678/api/works/" + e.target.id;
+    console.log("URL = " + targetURL);
+    const response = fetch(targetURL, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${adminToken}`,
+      },
+    });
+    if (response.ok) {
+      console.log("suppression OK de image " + e.target.id);
+      alert("Suppression réussie !");
+      //refresh display provoque bug!
+      displayThumbnails(travaux);
+    } else {
+      alert("Echec de la suppression");
+    }
   };
 
   for (let deleteIcon of deleteIcons) {
@@ -187,7 +235,7 @@ function previewSubmittedPicture() {
     const imagePreviewURL = URL.createObjectURL(addPictureButton.files[0]);
     const imagePreviewElement = document.createElement("img");
     imagePreviewElement.src = imagePreviewURL;
-    console.log(imagePreviewURL);
+    console.log("URL de l'image = " + imagePreviewURL);
     imagePreviewElement.onload = () => {
       URL.revokeObjectURL(imagePreviewElement.src);
       console.log("revoke OK");
@@ -252,6 +300,8 @@ function uploadPicture() {
       if (response.ok) {
         console.log("upload OK");
         alert("Téléversement réussi !");
+        resetUploadFields();
+        // comment refresh thumbnails ?
       } else {
         console.log("upload NOK");
         throw new Error("Echec du téléversement.");
@@ -267,12 +317,10 @@ uploadPicture();
 //bouton home de la modale
 function goBackHome() {
   const backButton = document.getElementById("backButton");
-  const categoryInput = document.getElementById("category");
+  const categoryInput = document.getElementById("category_list");
   const photoName = document.getElementById("photo_name");
   backButton.addEventListener("click", () => {
     console.log("bouton back cliqué");
-    categoryInput.value = "";
-    photoName.value = "";
     imageUploadSection.classList.add("hidden");
     userInputsSection.classList.add("hidden");
     addPictureTitle.classList.add("hidden");
@@ -281,7 +329,20 @@ function goBackHome() {
     galleryTitle.classList.remove("hidden");
     thumbnailGallerySection.classList.remove("hidden");
     uploadedPictureSection.classList.add("hidden");
+    displayThumbnails(travaux);
   });
 }
 
 goBackHome();
+
+function resetUploadFields() {
+  const categoryInput = document.getElementById("category_list");
+  const photoName = document.getElementById("photo_name");
+  // /!\ reset dropdown ne marche pas !
+  categoryInput.selectedIndex = 0;
+  photoName.value = "";
+  const photoForm = document.querySelector("#photo_form");
+  photoForm.reset;
+  uploadedPictureSection.classList.add("hidden");
+  imageUploadSection.classList.remove("hidden");
+}
