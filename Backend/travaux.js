@@ -153,9 +153,12 @@ addPictureButton.addEventListener("click", () => {
 
 //récupération de la liste des catégories pour affichage dans la liste déroulante
 async function displayCategories(categories) {
+  const categoryList = document.getElementById("category_list");
+  categoryList.innerHTML = "";
   for (let i = 0; i < categories.length; i++) {
-    const categoryList = document.getElementById("category_list");
     const optionItem = document.createElement("option");
+    optionItem.setAttribute("id", categories[i].id);
+    optionItem.setAttribute("name", "selected_category");
     optionItem.innerText = categories[i].name;
     categoryList.appendChild(optionItem);
   }
@@ -166,7 +169,7 @@ async function deleteWorks() {
   const deleteIcons = document.querySelectorAll(".thumbnail_delete_icon");
   const iconClicked = (e) => {
     e.preventDefault();
-    console.log("bouton activé = " + e.target.id);
+    console.log("suppression demandée = " + e.target.id);
     //refresh display provoque bug!
     //displayThumbnails(travaux);
   };
@@ -210,7 +213,7 @@ function validatePhotoName() {
 }
 
 function validateCategory() {
-  const category = document.getElementById("category");
+  const category = document.getElementById("category_list");
   if (category.value === "") {
     throw new Error("Veuillez sélectionner une catégorie.");
   }
@@ -233,9 +236,11 @@ function uploadPicture() {
       console.log("token = " + adminToken);
       const form = new FormData();
       const file = document.getElementById("add_picture_button").files[0];
+      const selectedCategory = document.querySelector("option[id]");
+      const categoryId = selectedCategory.getAttribute("id");
       form.append("image", file);
       form.append("title", document.getElementById("photo_name").value);
-      form.append("category", document.getElementById("category_list").value);
+      form.append("category", categoryId);
       const response = await fetch("http://localhost:5678/api/works", {
         method: "POST",
         body: form,
