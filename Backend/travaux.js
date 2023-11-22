@@ -87,17 +87,23 @@ closeButton.addEventListener("click", () => {
 
 // code pour affichage de la galerie de miniatures
 async function displayThumbnails(travaux) {
+  const thumbnailGallery = document.querySelector(".thumbnail_gallery");
+  //test, à virer si pb
+  thumbnailGallery.innerHTML = "";
   for (let i = 0; i < travaux.length; i++) {
     const buttonItem = document.createElement("button");
     buttonItem.setAttribute("id", "delete_picture");
+    buttonItem.setAttribute("type", "button");
     const trashcanIcon = document.createElement("i");
+    trashcanIcon.setAttribute("id", travaux[i].id);
     trashcanIcon.classList.add("fa-solid");
     trashcanIcon.classList.add("fa-trash-can");
+    trashcanIcon.classList.add("thumbnail_delete_icon");
 
     const imageThumbnail = document.createElement("img");
     imageThumbnail.src = travaux[i].imageUrl;
     imageThumbnail.alt = travaux[i].title;
-    const thumbnailGallery = document.querySelector(".thumbnail_gallery");
+
     const imageDiv = document.createElement("div");
     const pictureFrameDiv = document.createElement("div");
     const pictureButtonDiv = document.createElement("div");
@@ -143,8 +149,6 @@ addPictureButton.addEventListener("click", () => {
   displayUploadPage();
   displayCategories(categories);
   console.log("mode upload activé");
-  console.log("liste catégories = " + categories);
-  console.log("liste travaux = " + travaux);
 });
 
 //récupération de la liste des catégories pour affichage dans la liste déroulante
@@ -152,17 +156,27 @@ async function displayCategories(categories) {
   for (let i = 0; i < categories.length; i++) {
     const categoryList = document.getElementById("category_list");
     const optionItem = document.createElement("option");
-    //optionItem.setAttribute("value", categories[i].id);
     optionItem.innerText = categories[i].name;
     categoryList.appendChild(optionItem);
   }
-
-  /*   const categoryList = document.getElementById("category_list");
-  const optionItem = document.createElement("option");
-  optionItem.setAttribute("value", "toto");
-  optionItem.innerText = "toto";
-  categoryList.appendChild(optionItem); */
 }
+
+//fonction pour suppression des travaux depuis la modale
+async function deleteWorks() {
+  const deleteIcons = document.querySelectorAll(".thumbnail_delete_icon");
+  const iconClicked = (e) => {
+    e.preventDefault();
+    console.log("bouton activé = " + e.target.id);
+    //refresh display provoque bug!
+    //displayThumbnails(travaux);
+  };
+
+  for (let deleteIcon of deleteIcons) {
+    deleteIcon.addEventListener("click", iconClicked);
+  }
+}
+
+deleteWorks();
 
 function previewSubmittedPicture() {
   const addPictureButton = document.getElementById("add_picture_button");
@@ -203,8 +217,11 @@ function validateCategory() {
 }
 
 function uploadPicture() {
+  //test pour corriger bug, à valider avec Paul
   const photoForm = document.querySelector("#photo_form");
   photoForm.addEventListener("submit", async (e) => {
+    /* const submitButton = document.getElementById("submitPicture");
+  submitButton.addEventListener("click", async (e) => { */
     try {
       e.preventDefault();
       e.stopPropagation();
@@ -218,7 +235,7 @@ function uploadPicture() {
       const file = document.getElementById("add_picture_button").files[0];
       form.append("image", file);
       form.append("title", document.getElementById("photo_name").value);
-      form.append("category", document.getElementById("category").value);
+      form.append("category", document.getElementById("category_list").value);
       const response = await fetch("http://localhost:5678/api/works", {
         method: "POST",
         body: form,
@@ -242,6 +259,7 @@ function uploadPicture() {
 
 uploadPicture();
 
+//bouton home de la modale
 function goBackHome() {
   const backButton = document.getElementById("backButton");
   const categoryInput = document.getElementById("category");
