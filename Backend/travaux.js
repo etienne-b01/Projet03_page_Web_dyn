@@ -1,7 +1,20 @@
-const works_response = await fetch("http://localhost:5678/api/works/");
-const categories_response = await fetch("http://localhost:5678/api/categories");
-const travaux = await works_response.json();
-const categories = await categories_response.json();
+let travaux = [];
+let categories = [];
+
+async function loadData() {
+  //appels API + methodes d'affichage
+  const works_response = await fetch("http://localhost:5678/api/works/");
+  const categories_response = await fetch(
+    "http://localhost:5678/api/categories"
+  );
+  travaux = await works_response.json();
+  categories = await categories_response.json();
+  createDisplayFilters(categories);
+  genererTravaux(travaux);
+  displayThumbnails(travaux);
+}
+
+loadData();
 
 //affichage des filtres reprenant les catégories
 async function createCategoryFilters(categories) {
@@ -27,8 +40,6 @@ async function createDisplayFilters(categories) {
   }
 }
 
-createDisplayFilters(categories);
-
 //affichage des travaux toutes catégories confondues
 async function genererTravaux(travaux) {
   for (let i = 0; i < travaux.length; i++) {
@@ -44,8 +55,6 @@ async function genererTravaux(travaux) {
     sectionTravaux.appendChild(figureElement);
   }
 }
-
-genererTravaux(travaux);
 
 //filtrage des travaux à afficher
 const category_inputs = document.querySelectorAll("[data-category]");
@@ -119,15 +128,15 @@ closeButton.addEventListener("click", () => {
 // code pour affichage de la galerie de miniatures
 async function displayThumbnails(travaux) {
   const thumbnailGallery = document.querySelector(".thumbnail_gallery");
-  //refresh ne marche pas au bouton back!
   thumbnailGallery.innerHTML = "";
   console.log("refresh demandé");
   for (let i = 0; i < travaux.length; i++) {
     const buttonItem = document.createElement("button");
-    buttonItem.setAttribute("id", "delete_picture");
+    buttonItem.setAttribute("data-id", travaux[i].id);
     buttonItem.setAttribute("type", "button");
+    buttonItem.classList.add("delete_buttons");
+
     const trashcanIcon = document.createElement("i");
-    trashcanIcon.setAttribute("id", travaux[i].id);
     trashcanIcon.classList.add("fa-solid");
     trashcanIcon.classList.add("fa-trash-can");
     trashcanIcon.classList.add("thumbnail_delete_icon");
@@ -151,9 +160,8 @@ async function displayThumbnails(travaux) {
     pictureFrameDiv.appendChild(imageDiv);
     imageDiv.appendChild(imageThumbnail);
   }
+  deleteWorks();
 }
-
-displayThumbnails(travaux);
 
 // déclaration des éléments de l'interface pour les afficher ou les masquer
 const imageUploadSection = document.querySelector(".image_upload");
@@ -199,35 +207,33 @@ async function displayCategories(categories) {
 //fonction pour suppression des travaux depuis la modale
 async function deleteWorks() {
   const adminToken = sessionStorage.getItem("adminToken");
-  const deleteIcons = document.querySelectorAll(".thumbnail_delete_icon");
-  const iconClicked = (e) => {
+  const deleteIcons = document.querySelectorAll(".delete_buttons");
+  const iconClicked = async (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    const targetURL = "http://localhost:5678/api/works/" + e.target.id;
+    console.log("debug fonction delete = ", e);
+    const targetURL = "http://localhost:5678/api/works/" + e.target.dataset.id;
     console.log("URL = " + targetURL);
-    const response = fetch(targetURL, {
+    const response = await fetch(targetURL, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${adminToken}`,
       },
     });
+    console.log("réponse serveur = ", response);
     if (response.ok) {
-      console.log("suppression OK de image " + e.target.id);
+      console.log("suppression OK de image " + e.target.dataset.id);
       alert("Suppression réussie !");
-      //refresh display provoque bug!
-      displayThumbnails(travaux);
+      loadData();
     } else {
       alert("Echec de la suppression");
     }
   };
-
-  for (let deleteIcon of deleteIcons) {
-    deleteIcon.addEventListener("click", iconClicked);
+  console.log(deleteIcons);
+  for (let i = 0; i < deleteIcons.length; i++) {
+    deleteIcons[i].addEventListener("click", iconClicked);
   }
 }
-
-deleteWorks();
 
 function previewSubmittedPicture() {
   const addPictureButton = document.getElementById("add_picture_button");
@@ -268,11 +274,8 @@ function validateCategory() {
 }
 
 function uploadPicture() {
-  //test pour corriger bug, à valider avec Paul
   const photoForm = document.querySelector("#photo_form");
   photoForm.addEventListener("submit", async (e) => {
-    /* const submitButton = document.getElementById("submitPicture");
-  submitButton.addEventListener("click", async (e) => { */
     try {
       e.preventDefault();
       e.stopPropagation();
@@ -301,7 +304,7 @@ function uploadPicture() {
         console.log("upload OK");
         alert("Téléversement réussi !");
         resetUploadFields();
-        // comment refresh thumbnails ?
+        loadData();
       } else {
         console.log("upload NOK");
         throw new Error("Echec du téléversement.");
@@ -329,7 +332,6 @@ function goBackHome() {
     galleryTitle.classList.remove("hidden");
     thumbnailGallerySection.classList.remove("hidden");
     uploadedPictureSection.classList.add("hidden");
-    displayThumbnails(travaux);
   });
 }
 
@@ -338,7 +340,6 @@ goBackHome();
 function resetUploadFields() {
   const categoryInput = document.getElementById("category_list");
   const photoName = document.getElementById("photo_name");
-  // /!\ reset dropdown ne marche pas !
   categoryInput.selectedIndex = 0;
   photoName.value = "";
   const photoForm = document.querySelector("#photo_form");

@@ -34,7 +34,7 @@ function loginlistener() {
       //sauvegarde du token localement
       const serverResponse = await response.json();
       const token = serverResponse.token;
-      console.log("token =" + token);
+      console.log("token = " + token);
       sessionStorage.setItem("adminToken", token);
       window.location.assign("./index.html");
     } else {
