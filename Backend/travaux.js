@@ -42,6 +42,8 @@ async function createDisplayFilters(categories) {
 
 //affichage des travaux toutes catégories confondues
 async function genererTravaux(travaux) {
+  const sectionTravaux = document.querySelector(".gallery");
+  sectionTravaux.innerHTML = "";
   for (let i = 0; i < travaux.length; i++) {
     const figureElement = document.createElement("figure");
     const imageElement = document.createElement("img");
@@ -51,13 +53,13 @@ async function genererTravaux(travaux) {
     captionElement.innerText = travaux[i].title;
     figureElement.appendChild(imageElement);
     figureElement.appendChild(captionElement);
-    const sectionTravaux = document.querySelector(".gallery");
     sectionTravaux.appendChild(figureElement);
   }
 }
 
 //filtrage des travaux à afficher
-const category_inputs = document.querySelectorAll("[data-category]");
+//const category_inputs = document.querySelectorAll("[data-category]");
+const category_inputs = document.querySelectorAll(".buttons");
 const clickFunction = function (event) {
   let data_category = event.target.attributes["data-category"].value;
   document.querySelector(".gallery").innerHTML = "";
@@ -101,7 +103,6 @@ if (adminToken !== null) {
 function logOut() {
   const logOutButton = document.getElementById("logout");
   logOutButton.addEventListener("click", () => {
-    console.log("logout cliqué");
     sessionStorage.clear();
     location.reload();
   });
@@ -117,19 +118,26 @@ const addPicture = document.getElementById("addPicture");
 
 editButton.addEventListener("click", () => {
   modal.showModal();
-  console.log("appel modale");
 });
 
 closeButton.addEventListener("click", () => {
   modal.close();
-  console.log("fermeture demandée");
+  resetUploadFields();
+  imageUploadSection.classList.add("hidden");
+  userInputsSection.classList.add("hidden");
+  addPictureTitle.classList.add("hidden");
+  submitPictureButton.classList.add("hidden");
+  addPictureButton.classList.remove("hidden");
+  galleryTitle.classList.remove("hidden");
+  thumbnailGallerySection.classList.remove("hidden");
+  uploadedPictureSection.classList.add("hidden");
+  document.querySelector(".uploaded_picture_preview").innerHTML = "";
 });
 
 // code pour affichage de la galerie de miniatures
 async function displayThumbnails(travaux) {
   const thumbnailGallery = document.querySelector(".thumbnail_gallery");
   thumbnailGallery.innerHTML = "";
-  console.log("refresh demandé");
   for (let i = 0; i < travaux.length; i++) {
     const buttonItem = document.createElement("button");
     buttonItem.setAttribute("data-id", travaux[i].id);
@@ -188,7 +196,6 @@ function displayUploadPage() {
 addPictureButton.addEventListener("click", () => {
   displayUploadPage();
   displayCategories(categories);
-  console.log("mode upload activé");
 });
 
 //récupération de la liste des catégories pour affichage dans la liste déroulante
@@ -210,9 +217,7 @@ async function deleteWorks() {
   const deleteIcons = document.querySelectorAll(".delete_buttons");
   const iconClicked = async (e) => {
     e.preventDefault();
-    console.log("debug fonction delete = ", e);
     const targetURL = "http://localhost:5678/api/works/" + e.target.dataset.id;
-    console.log("URL = " + targetURL);
     const response = await fetch(targetURL, {
       method: "DELETE",
       headers: {
@@ -220,16 +225,13 @@ async function deleteWorks() {
         Authorization: `Bearer ${adminToken}`,
       },
     });
-    console.log("réponse serveur = ", response);
     if (response.ok) {
-      console.log("suppression OK de image " + e.target.dataset.id);
       alert("Suppression réussie !");
       loadData();
     } else {
       alert("Echec de la suppression");
     }
   };
-  console.log(deleteIcons);
   for (let i = 0; i < deleteIcons.length; i++) {
     deleteIcons[i].addEventListener("click", iconClicked);
   }
@@ -241,10 +243,8 @@ function previewSubmittedPicture() {
     const imagePreviewURL = URL.createObjectURL(addPictureButton.files[0]);
     const imagePreviewElement = document.createElement("img");
     imagePreviewElement.src = imagePreviewURL;
-    console.log("URL de l'image = " + imagePreviewURL);
     imagePreviewElement.onload = () => {
       URL.revokeObjectURL(imagePreviewElement.src);
-      console.log("revoke OK");
     };
     uploadedPictureSection.classList.remove("hidden");
     imageUploadSection.classList.add("hidden");
@@ -279,12 +279,10 @@ function uploadPicture() {
     try {
       e.preventDefault();
       e.stopPropagation();
-      console.log("submit demandé");
       validatePicture();
       validatePhotoName();
       validateCategory();
       const adminToken = sessionStorage.getItem("adminToken");
-      console.log("token = " + adminToken);
       const form = new FormData();
       const file = document.getElementById("add_picture_button").files[0];
       const selectedCategory = document.querySelector("option[id]");
@@ -301,12 +299,10 @@ function uploadPicture() {
         },
       });
       if (response.ok) {
-        console.log("upload OK");
         alert("Téléversement réussi !");
         resetUploadFields();
         loadData();
       } else {
-        console.log("upload NOK");
         throw new Error("Echec du téléversement.");
       }
     } catch (e) {
@@ -323,7 +319,6 @@ function goBackHome() {
   const categoryInput = document.getElementById("category_list");
   const photoName = document.getElementById("photo_name");
   backButton.addEventListener("click", () => {
-    console.log("bouton back cliqué");
     imageUploadSection.classList.add("hidden");
     userInputsSection.classList.add("hidden");
     addPictureTitle.classList.add("hidden");
@@ -332,6 +327,7 @@ function goBackHome() {
     galleryTitle.classList.remove("hidden");
     thumbnailGallerySection.classList.remove("hidden");
     uploadedPictureSection.classList.add("hidden");
+    document.querySelector(".uploaded_picture_preview").innerHTML = "";
   });
 }
 
@@ -346,4 +342,5 @@ function resetUploadFields() {
   photoForm.reset;
   uploadedPictureSection.classList.add("hidden");
   imageUploadSection.classList.remove("hidden");
+  document.querySelector(".uploaded_picture_preview").innerHTML = "";
 }

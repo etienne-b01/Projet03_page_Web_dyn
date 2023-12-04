@@ -216,6 +216,7 @@ li:hover {
 
 .gallery img {
   width: 100%;
+  height: 407px;
 }
 #contact {
   width: 50%;
@@ -248,7 +249,7 @@ li:hover {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
+input[type="button"] {
   font-family: "Syne";
   font-weight: 700;
   color: white;
@@ -257,6 +258,10 @@ input[type="submit"] {
   width: 180px;
   text-align: center;
   border-radius: 60px;
+}
+
+input[type="button"]:hover {
+  background-color: rgba(14, 47, 40, 1);
 }
 
 footer nav ul {
@@ -284,6 +289,11 @@ footer nav ul {
   text-align: center;
   color: #1d6154;
   background-color: white;
+}
+
+.buttons button:hover {
+  background-color: rgba(14, 47, 40, 1);
+  color: white;
 }
 
 .buttons .all_categories {
@@ -412,7 +422,6 @@ html {
   margin-left: 30px;
   background: none;
   border: 0px;
-  /* display: none; */
 }
 
 #edit_button img {
@@ -432,7 +441,6 @@ h2 a:hover {
 }
 
 #logout {
-  /* display: none; */
   border: 0px;
   font-family: "Work sans";
   font-weight: 400;
@@ -444,7 +452,7 @@ h2 a:hover {
   font-weight: bold;
 }
 
-:modal {
+#modal_window {
   width: 630px;
   height: 670px;
   border-radius: 10px;
@@ -506,21 +514,22 @@ dialog::backdrop {
   right: 6px;
 }
 
-#delete_picture {
+.picture_frame button {
+  background: none;
+  background-color: black;
+  border: none;
+}
+
+.delete_buttons {
+  color: white;
   width: 17px;
   height: 17px;
-  background-color: black;
-  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 2px;
-  font-size: 11px;
-}
-
-.picture_frame button {
-  background: none;
-  border: none;
+  font-size: 10px;
+  padding-top: 0px;
 }
 
 .user_inputs input,
