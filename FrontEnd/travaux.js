@@ -16,19 +16,7 @@ async function loadData() {
 
 loadData();
 
-//affichage des filtres reprenant les catégories
-async function createCategoryFilters(categories) {
-  for (let i = 0; i < categories.length; i++) {
-    const buttonsClass = document.querySelector("buttons");
-    const buttonElement = document.createElement;
-    buttonElement.setAttribute("id", "category");
-    buttonElement.setAttribute("data-category", categories[i].id);
-    buttonElement.innerText = categories[i].name;
-    buttonsClass.appendChild(buttonElement);
-  }
-}
-
-//création des filtres d'affichage des travaux
+//création des filtres d'affichage des travaux selon leur catégorie
 async function createDisplayFilters(categories) {
   for (let i = 0; i < categories.length; i++) {
     const buttonsClass = document.querySelector(".buttons");
@@ -61,14 +49,12 @@ async function genererTravaux(travaux) {
 const category_inputs = document.querySelectorAll(".buttons");
 const clickFunction = function (event) {
   let data_category = event.target.attributes["data-category"].value;
-  console.log("clic reçu = " + data_category);
   document.querySelector(".gallery").innerHTML = "";
   const filteredWorks = travaux.filter(function (travail) {
     return data_category === "all"
       ? true
       : travail.category.id == data_category;
   });
-  console.log("valeur de filteredWorks = " + filteredWorks);
   genererTravaux(filteredWorks);
 };
 
@@ -95,9 +81,6 @@ function displayAdminPage() {
 const adminToken = sessionStorage.getItem("adminToken");
 if (adminToken !== null) {
   displayAdminPage();
-  console.log("user connecté");
-} else {
-  console.log("aucun user connecté");
 }
 
 //fonction de logout
@@ -279,7 +262,6 @@ function uploadPicture() {
   photoForm.addEventListener("submit", async (e) => {
     try {
       e.preventDefault();
-      e.stopPropagation();
       validatePicture();
       validatePhotoName();
       validateCategory();
