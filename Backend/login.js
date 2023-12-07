@@ -24,7 +24,6 @@ function loginlistener() {
     };
     if (credentials.email.length < 1 || credentials.password.length < 1) return;
     const payload = JSON.stringify(credentials);
-    console.log(payload);
     const response = await fetch("http://localhost:5678/api/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -34,11 +33,9 @@ function loginlistener() {
       //sauvegarde du token localement
       const serverResponse = await response.json();
       const token = serverResponse.token;
-      console.log("token = " + token);
       sessionStorage.setItem("adminToken", token);
       window.location.assign("./index.html");
     } else {
-      console.log("connexion NOK");
       alert("Erreur dans l’identifiant ou le mot de passe");
     }
   });

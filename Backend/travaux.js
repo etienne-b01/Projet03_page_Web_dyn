@@ -58,16 +58,17 @@ async function genererTravaux(travaux) {
 }
 
 //filtrage des travaux à afficher
-//const category_inputs = document.querySelectorAll("[data-category]");
 const category_inputs = document.querySelectorAll(".buttons");
 const clickFunction = function (event) {
   let data_category = event.target.attributes["data-category"].value;
+  console.log("clic reçu = " + data_category);
   document.querySelector(".gallery").innerHTML = "";
   const filteredWorks = travaux.filter(function (travail) {
     return data_category === "all"
       ? true
       : travail.category.id == data_category;
   });
+  console.log("valeur de filteredWorks = " + filteredWorks);
   genererTravaux(filteredWorks);
 };
 
@@ -285,8 +286,9 @@ function uploadPicture() {
       const adminToken = sessionStorage.getItem("adminToken");
       const form = new FormData();
       const file = document.getElementById("add_picture_button").files[0];
-      const selectedCategory = document.querySelector("option[id]");
-      const categoryId = selectedCategory.getAttribute("id");
+      const selectedCategory = document.querySelector("#category_list");
+      const categoryId =
+        selectedCategory.options[selectedCategory.selectedIndex].id;
       form.append("image", file);
       form.append("title", document.getElementById("photo_name").value);
       form.append("category", categoryId);
